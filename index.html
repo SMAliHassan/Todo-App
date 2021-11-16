@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+
+    <script defer="" src="./js/script.js"></script>
+    <link rel="stylesheet" href="./css/main.css" />
+    <title>Todo App</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__hero"></div>
+    </header>
+
+    <main class="main">
+      <nav class="main__nav">
+        <h1 class="main__nav__title">TODO</h1>
+        <div class="main__nav__theme-btns-container">
+          <i
+            class="fas fa-moon main__nav__theme-btn main__nav__theme-btn--night"
+          ></i>
+          <i
+            class="
+              fas fas
+              fa-certificate
+              main__nav__theme-btn main__nav__theme-btn--day
+            "
+          ></i>
+        </div>
+      </nav>
+
+      <form class="add-new-todo">
+        <button
+          type="button"
+          class="add-new-todo__btn--clear btn--circle btn--clear"
+        >
+          &#10060;
+        </button>
+
+        <input
+          class="add-new-todo__input"
+          type="text"
+          placeholder="Create a new todo..."
+        />
+      </form>
+
+      <ul class="main__todo-list">
+        <!-- <li class="main__todo-item" data-id="2545335343534">
+          <button
+        class="
+          btn--circle
+          main__todo-item__btn-todo--completed
+          btn-todo--completed
+        "
+      ></button>
+          <label class="main__todo-item__text" 
+            >I will clean my house</label
+          >
+          <i
+            class="fas fa-trash main__todo-item__btn-todo--del btn-todo--del"
+          ></i>
+        </li> -->
+
+        <!-- <li class="main__todo-list__controls controls">
+          <p class="controls__items-left">
+            <span class="controls__items-left__items">2</span> items left
+          </p>
+          <div class="controls__btn-container">
+            <a class="controls__btn controls__btn-all">All</a>
+            <a class="controls__btn controls__btn-active">Active</a>
+            <a
+              class="
+                controls__btn controls__btn-completed controls__btn--active
+              "
+              >Completed</a
+            >
+            <a class="controls__btn controls__btn-clear">Clear Completed</a>
+          </div>
+        </li> -->
+      </ul>
+    </main>
+  </body>
+</html>
