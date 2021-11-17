@@ -108,8 +108,8 @@ class View {
           "
           >Completed</a
         >
-        <a class="controls__btn controls__btn-clear">Clear Completed</a>
-      </div>
+        </div>
+        <a class="controls__btn-clear">Clear Completed</a>
     </li>
     `;
   }
@@ -237,8 +237,6 @@ class View {
   addHandlerControlsBtns(filterHandler, clearCompletedHandler) {
     this.#main.addEventListener('click', function (e) {
       const btn = e.target;
-
-      if (!btn.classList.contains('controls__btn')) return;
 
       if (btn.classList.contains('controls__btn-all')) filterHandler('all');
 
