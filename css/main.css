@@ -205,6 +205,7 @@ li {
 
 .add-new-todo__btn--clear {
   margin-left: 2rem;
+  font-size: 1.1rem;
   flex-grow: 0;
   flex-shrink: 0;
 }
