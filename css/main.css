@@ -223,8 +223,9 @@ li {
 
 .main__todo-item {
   border-radius: inherit;
-  height: 6.5rem;
   font-size: 1.8rem;
+  padding: 2rem 2rem 2rem 0;
+  word-break: break-word;
   display: flex;
   align-items: center;
   border-bottom: 2px solid var(--color-border-light);
@@ -241,6 +242,7 @@ li {
 }
 
 .main__todo-item__btn-todo--completed {
+  flex: none;
   margin-left: 2rem;
 }
 
