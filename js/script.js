@@ -66,20 +66,13 @@ class View {
     let markup;
 
     // generate markup
-    if (type === 'all')
-      markup =
-        this.#generateMarkupTodos(data.allTodos) +
-        this.#generateMarkupControls(data, type);
+    if (type === 'all') markup = this.#generateMarkupTodos(data.allTodos) + this.#generateMarkupControls(data, type);
 
     if (type === 'completed')
-      markup =
-        this.#generateMarkupTodos(data.completedTodos) +
-        this.#generateMarkupControls(data, type);
+      markup = this.#generateMarkupTodos(data.completedTodos) + this.#generateMarkupControls(data, type);
 
     if (type === 'active')
-      markup =
-        this.#generateMarkupTodos(data.activeTodos) +
-        this.#generateMarkupControls(data, type);
+      markup = this.#generateMarkupTodos(data.activeTodos) + this.#generateMarkupControls(data, type);
 
     // insert the markup
     this.#todoList.insertAdjacentHTML('afterbegin', markup);
@@ -89,22 +82,16 @@ class View {
     return `
     <li class="main__todo-list__controls controls">
       <p class="controls__items-left">
-        <span class="controls__items-left__items">${
-          data.activeTodos.length
-        }</span> items left
+        <span class="controls__items-left__items">${data.activeTodos.length}</span> items left
       </p>
       <div class="controls__btn-container">
-        <a class="controls__btn controls__btn-all ${
-          activeBtn === 'all' ? 'controls__btn--active' : ''
-        }">All</a>
+        <a class="controls__btn controls__btn-all ${activeBtn === 'all' ? 'controls__btn--active' : ''}">All</a>
         <a class="controls__btn controls__btn-active ${
           activeBtn === 'active' ? 'controls__btn--active' : ''
         }">Active</a>
         <a
           class="
-            controls__btn controls__btn-completed ${
-              activeBtn === 'completed' ? 'controls__btn--active' : ''
-            }
+            controls__btn controls__btn-completed ${activeBtn === 'completed' ? 'controls__btn--active' : ''}
           "
           >Completed</a
         >
@@ -118,20 +105,16 @@ class View {
     const markup = todos
       .map(todo => {
         return `
-      <li class="main__todo-item ${
-        todo.completed ? 'main__todo-item--completed' : ''
-      }" data-id="${todo.id} ">
+      <li class="main__todo-item ${todo.completed ? 'main__todo-item--completed' : ''}" data-id="${todo.id} ">
       <button
       class="
         btn--circle
         main__todo-item__btn-todo--completed
-        btn-todo--completed ${
-          todo.completed ? 'btn-todo--completed--active' : ''
-        }
+        btn-todo--completed ${todo.completed ? 'btn-todo--completed--active' : ''}
       "
     ></button>
         <label class="main__todo-item__text" 
-          >${todo.text}</label
+          >${DOMPurify.sanitize(todo.text, { ALLOWED_TAGS: ['a'], ALLOWED_ATTR: ['href'] })}</label
         >
         <i
           class="fas fa-trash main__todo-item__btn-todo--del btn-todo--del"
@@ -190,8 +173,28 @@ class View {
         // Remove the active class from btnClear
         this.#btnClear.classList.remove('btn--clear--active');
 
+        const linkRegex = /(https?\:\/\/)?(www\.)?[^\s]+\.[^\s]+/g;
+        function replacer(matched) {
+          let withProtocol = matched;
+
+          if (!withProtocol.startsWith('http')) {
+            withProtocol = 'http://' + matched;
+          }
+
+          const newStr = `<a
+            class="text-link"
+            href="${withProtocol}"
+          >
+            ${matched}
+          </a>`;
+
+          return newStr;
+        }
+
+        const todoTextWithLink = todoText.replace(linkRegex, replacer);
+
         // Calling the handler
-        handler(todoText);
+        handler(todoTextWithLink);
       }.bind(this)
     );
   }
@@ -214,9 +217,7 @@ class View {
   }
 
   addHandlerThemeBtn(handler) {
-    const btnContainer = document.querySelector(
-      '.main__nav__theme-btns-container'
-    );
+    const btnContainer = document.querySelector('.main__nav__theme-btns-container');
 
     btnContainer.addEventListener('click', function (e) {
       if (e.target.classList.contains('main__nav__theme-btn--night')) {
@@ -230,8 +231,7 @@ class View {
   }
 
   updateItemsLeft(state) {
-    document.querySelector('.controls__items-left__items').textContent =
-      state.activeTodos.length;
+    document.querySelector('.controls__items-left__items').textContent = state.activeTodos.length;
   }
 
   addHandlerControlsBtns(filterHandler, clearCompletedHandler) {
@@ -240,14 +240,11 @@ class View {
 
       if (btn.classList.contains('controls__btn-all')) filterHandler('all');
 
-      if (btn.classList.contains('controls__btn-active'))
-        filterHandler('active');
+      if (btn.classList.contains('controls__btn-active')) filterHandler('active');
 
-      if (btn.classList.contains('controls__btn-completed'))
-        filterHandler('completed');
+      if (btn.classList.contains('controls__btn-completed')) filterHandler('completed');
 
-      if (btn.classList.contains('controls__btn-clear'))
-        clearCompletedHandler();
+      if (btn.classList.contains('controls__btn-clear')) clearCompletedHandler();
     });
   }
 
@@ -286,26 +283,13 @@ class View {
     headerHero.style.backgroundImage = `url('./imgs/${theme}.jpg')`;
 
     //  Toggling the buttons
-    document
-      .querySelector(`.main__nav__theme-btn--${prevTheme}`)
-      .classList.remove('hidden');
-    document
-      .querySelector(`.main__nav__theme-btn--${theme}`)
-      .classList.add('hidden');
+    document.querySelector(`.main__nav__theme-btn--${prevTheme}`).classList.remove('hidden');
+    document.querySelector(`.main__nav__theme-btn--${theme}`).classList.add('hidden');
 
     // Changing the colors
-    root.style.setProperty(
-      '--color-background-primary',
-      theme === 'day' ? primaryLightColor : primaryDarkColor
-    );
-    root.style.setProperty(
-      '--color-background-secondary',
-      theme === 'day' ? secondaryLightColor : secondaryDarkColor
-    );
-    root.style.setProperty(
-      '--color-text--dark',
-      theme === 'day' ? primaryDarkColor : textLightColor
-    );
+    root.style.setProperty('--color-background-primary', theme === 'day' ? primaryLightColor : primaryDarkColor);
+    root.style.setProperty('--color-background-secondary', theme === 'day' ? secondaryLightColor : secondaryDarkColor);
+    root.style.setProperty('--color-text--dark', theme === 'day' ? primaryDarkColor : textLightColor);
   }
 }
 
@@ -313,12 +297,9 @@ class Controller {
   constructor() {
     view.addHandlerThemeBtn(this.controlTheme);
     view.addHandlerFormSubmit(this.controlAddTodo);
-    view.addHandlerDelBtn(this.controlDelTodo);
+    view.addHandlerDelBtn(this.controlTodoDelete);
     view.addHandlerCompletedBtn(this.controlToggleCompleted);
-    view.addHandlerControlsBtns(
-      this.controlToggleFilter,
-      this.controlClearCompleted
-    );
+    view.addHandlerControlsBtns(this.controlToggleFilter, this.controlClearCompleted);
     view.toggleTheme(model.state.theme);
     view.renderMain(model.state);
   }
@@ -332,10 +313,8 @@ class Controller {
     model.setLocalStorage();
   }
 
-  controlDelTodo(id) {
-    const delTodoIndex = model.state.allTodos.findIndex(
-      todo => +todo.id === +id
-    );
+  controlTodoDelete(id) {
+    const delTodoIndex = model.state.allTodos.findIndex(todo => +todo.id === +id);
 
     // Remove the todo from the allTodos
     model.state.allTodos.splice(delTodoIndex, 1);
