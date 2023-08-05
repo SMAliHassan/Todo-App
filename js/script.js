@@ -104,6 +104,27 @@ class View {
   #generateMarkupTodos(todos) {
     const markup = todos
       .map(todo => {
+        const linkRegex = /(https?\:\/\/)?(www\.)?[^\s]+\.[^\s]+/g;
+
+        function replaceLinks(matched) {
+          let withProtocol = matched;
+
+          if (!withProtocol.startsWith('http')) {
+            withProtocol = 'http://' + matched;
+          }
+
+          const newMarkup = `<a
+            class="text-link"
+            href="${withProtocol}"
+          >
+            ${matched}
+          </a>`;
+
+          return newMarkup;
+        }
+
+        const todoMarkupWithLinks = todo.text.replace(linkRegex, replaceLinks);
+
         return `
       <li class="main__todo-item ${todo.completed ? 'main__todo-item--completed' : ''}" data-id="${todo.id} ">
       <button
@@ -114,7 +135,7 @@ class View {
       "
     ></button>
         <label class="main__todo-item__text" 
-          >${DOMPurify.sanitize(todo.text, { ALLOWED_TAGS: ['a'], ALLOWED_ATTR: ['href'] })}</label
+          >${DOMPurify.sanitize(todoMarkupWithLinks, { ALLOWED_TAGS: ['a'], ALLOWED_ATTR: ['href'] })}</label
         >
         <i
           class="fas fa-trash main__todo-item__btn-todo--del btn-todo--del"
@@ -173,28 +194,8 @@ class View {
         // Remove the active class from btnClear
         this.#btnClear.classList.remove('btn--clear--active');
 
-        const linkRegex = /(https?\:\/\/)?(www\.)?[^\s]+\.[^\s]+/g;
-        function replacer(matched) {
-          let withProtocol = matched;
-
-          if (!withProtocol.startsWith('http')) {
-            withProtocol = 'http://' + matched;
-          }
-
-          const newStr = `<a
-            class="text-link"
-            href="${withProtocol}"
-          >
-            ${matched}
-          </a>`;
-
-          return newStr;
-        }
-
-        const todoTextWithLink = todoText.replace(linkRegex, replacer);
-
         // Calling the handler
-        handler(todoTextWithLink);
+        handler(todoText);
       }.bind(this)
     );
   }
