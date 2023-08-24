@@ -116,6 +116,7 @@ class View {
           const newMarkup = `<a
             class="text-link"
             href="${withProtocol}"
+            target="_blank"
           >
             ${matched}
           </a>`;
@@ -135,7 +136,10 @@ class View {
       "
     ></button>
         <label class="main__todo-item__text" 
-          >${DOMPurify.sanitize(todoMarkupWithLinks, { ALLOWED_TAGS: ['a'], ALLOWED_ATTR: ['href'] })}</label
+          >${DOMPurify.sanitize(todoMarkupWithLinks, {
+            ALLOWED_TAGS: ['a'],
+            ALLOWED_ATTR: ['href', 'target', 'class'],
+          })}</label
         >
         <i
           class="fas fa-trash main__todo-item__btn-todo--del btn-todo--del"
